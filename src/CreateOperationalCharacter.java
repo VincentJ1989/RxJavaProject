@@ -25,35 +25,15 @@ public class CreateOperationalCharacter {
     }
 
     private static void createByInterval() {
-        Observable.interval(1L, TimeUnit.SECONDS, Schedulers.trampoline()).subscribe(new Action1<Long>() {
-            @Override
-            public void call(Long aLong) {
-                System.out.println(aLong);
-            }
-        });
+        Observable.interval(1L, TimeUnit.SECONDS, Schedulers.trampoline()).subscribe(System.out::println);
     }
 
     private static void createByFrom() {
-        Observable.from(Arrays.asList("a", "b", "c", "d")).subscribe(new Action1<String>() {
-            @Override
-            public void call(String s) {
-                System.out.println(s);
-            }
-        });
+        Observable.from(Arrays.asList("a", "b", "c", "d")).subscribe(System.out::println);
     }
 
     private static void createByDefer() {
-        Observable.defer(new Func0<Observable<Long>>() {
-            @Override
-            public Observable<Long> call() {
-                return Observable.just(System.currentTimeMillis());
-            }
-        }).subscribe(new Action1<Long>() {
-            @Override
-            public void call(Long aLong) {
-                System.out.println(aLong);
-            }
-        });
+        Observable.defer(() -> Observable.just(System.currentTimeMillis())).subscribe(System.out::println);
 
         Observable.defer(() -> Observable.just(System.currentTimeMillis())).subscribe(System.out::println);
     }
