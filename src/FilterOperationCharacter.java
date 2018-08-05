@@ -12,7 +12,84 @@ public class FilterOperationCharacter {
         // doDebounce();
         // doDistinct();
         // doElementAt();
-        doFilter();
+        // doFilter();
+        // doFirst();
+        // doLast();
+        // doBlockingObservable();
+        // doSkip();
+        // doTake();
+        // doSkipLast();
+        // doTakeLast();
+        // doSample();
+        doThrottleFirst();
+    }
+
+    /**
+     * 与sample相反，获取的是规定时间内的第一个数据--android中的防止重复点击可以用
+     */
+    private static void doThrottleFirst() {
+        Observable.interval(500L, TimeUnit.MILLISECONDS, Schedulers.trampoline())
+            .throttleFirst(2000L, TimeUnit.MILLISECONDS)
+            .subscribe(System.out::println);
+    }
+
+    /**
+     * 制定一段时长，时长结束的时候发送最新的数据其余的被过滤
+     */
+    private static void doSample() {
+        Observable.interval(500L, TimeUnit.MILLISECONDS, Schedulers.trampoline())
+            .sample(2000L, TimeUnit.MILLISECONDS)
+            .subscribe(System.out::println);
+    }
+
+    /**
+     * 只取最后的N个数据
+     */
+    private static void doTakeLast() {
+        Observable.just(1, 2, 3, 4, 5, 6).takeLast(2).subscribe(System.out::println);
+    }
+
+    /**
+     * 过滤最后的N个
+     */
+    private static void doSkipLast() {
+        Observable.just(1, 2, 3, 4, 5, 6).skipLast(2).subscribe(System.out::println);
+    }
+
+    /**
+     * 只取前N个数据
+     */
+    private static void doTake() {
+        Observable.just(1, 2, 3, 4, 5).take(3).subscribe(System.out::println);
+    }
+
+    /**
+     * 可以过滤掉前N个数据
+     */
+    private static void doSkip() {
+        Observable.just(1, 2, 3, 4, 5, 6, 7).skip(2).subscribe(System.out::println);
+    }
+
+    /**
+     * 不会对Observable做处理，只会阻塞，同时它返回的是对应的数据而不是observable
+     */
+    private static void doBlockingObservable() {
+        Integer first = Observable.just(1, 2, 3, 4, 5).toBlocking().first(i -> i > 2);
+        System.out.println(first);
+    }
+
+    /**
+     * 只会返回最后一条或者满足条件的最后一条
+     */
+    private static void doLast() {
+        Observable.just(1, 2, 3, 4, 5, 6, 7).last(integer -> integer < 5).subscribe(System.out::println);
+    }
+
+    /**
+     * 只会返回第一条或者满足条件的第一条数据
+     */
+    private static void doFirst() {
+        Observable.just(1, 2, 3, 4, 5, 6, 7).first(integer -> integer > 5).subscribe(System.out::println);
     }
 
     /**
