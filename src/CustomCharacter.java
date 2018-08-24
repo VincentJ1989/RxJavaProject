@@ -2,7 +2,7 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * 自定义操作符
+ * 2.10 自定义操作符
  */
 public class CustomCharacter {
     public static void main(String[] args) {

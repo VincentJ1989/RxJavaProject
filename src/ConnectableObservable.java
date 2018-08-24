@@ -56,7 +56,9 @@ public class ConnectableObservable {
      */
     private static void doPublish() {
         rx.observables.ConnectableObservable<Long> publish =
-            Observable.interval(1000L, TimeUnit.MILLISECONDS).observeOn(Schedulers.newThread()).publish();
+            Observable.interval(1000L, TimeUnit.MILLISECONDS, Schedulers.trampoline())
+                .observeOn(Schedulers.newThread())
+                .publish();
 
         publish.subscribe(aLong -> {
             System.out.println(">>>:" + aLong);
