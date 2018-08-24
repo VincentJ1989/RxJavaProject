@@ -93,10 +93,15 @@ public class ConditionCharacter {
      */
     private static void doArm() {
         Observable
-            .amb(Observable.just(1, 2, 3).delay(3000L, TimeUnit.MILLISECONDS),
-                Observable.just(4, 5, 6).delay(2000L, TimeUnit.MILLISECONDS),
-                Observable.just(7, 8, 8).delay(1000L, TimeUnit.MILLISECONDS))
+            .amb(Observable.just(1, 2, 3).delay(3000L, TimeUnit.MILLISECONDS, Schedulers.newThread()),
+                Observable.just(4, 5, 6).delay(2000L, TimeUnit.MILLISECONDS, Schedulers.newThread()),
+                Observable.just(7, 8, 9).delay(1000L, TimeUnit.MILLISECONDS, Schedulers.newThread()))
             .subscribe(System.out::println);
+        try {
+            Thread.sleep(20000L);
+        } catch (InterruptedException e) {
+
+        }
     }
 
     /**
